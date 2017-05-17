@@ -125,4 +125,5 @@ sudo vfio-bind 0000:01:00.0 0000:01:00.1
 sudo windowsvm
 ```
 
-### 
+### thanks:
+https://bufferoverflow.io/gpu-passthrough/

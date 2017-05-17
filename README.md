@@ -61,14 +61,16 @@ lspci -nnk
 check
 > Kernel driver in use: pci-stub
 
-### Setup Qemu and scripts
+### Setup Qemu and scripts:
 sudo pacman -S qemu rpmextract
-``` [kemmler@arch ovmf]$ ls edk2.git-ovmf-x64-0-20150916.b1214.g2f667c5.noarch.rpm 
+``` 
+[kemmler@arch ovmf]$ ls edk2.git-ovmf-x64-0-20150916.b1214.g2f667c5.noarch.rpm 
 [kemmler@arch ovmf]$ rpmextract.sh edk2.git-ovmf-x64-0-20150916.b1214.g2f667c5.noarch.rpm 
 [kemmler@arch ovmf]$ ls edk2.git-ovmf-x64-0-20150916.b1214.g2f667c5.noarch.rpm usr 
 [kemmler@arch ovmf]$ sudo cp -R usr/share/* /usr/share/
 [kemmler@arch ovmf]$ ls /usr/share/edk2.git/ovmf-x64/ 
-OVMF_CODE-pure-efi.fd OVMF_CODE-with-csm.fd OVMF-pure-efi.fd OVMF_VARS-pure-efi.fd OVMF_VARS-with-csm.fd OVMF-with-csm.fd UefiShell.iso ```
+OVMF_CODE-pure-efi.fd OVMF_CODE-with-csm.fd OVMF-pure-efi.fd OVMF_VARS-pure-efi.fd OVMF_VARS-with-csm.fd OVMF-with-csm.fd UefiShell.iso 
+```
 then
 make a script called vfio-bind in /usr/bin w/ chmod +x
 ```
@@ -119,11 +121,11 @@ qemu-system-x86_64 \
 -drive file=/home/kemmler/kvm/virt.iso,id=virtiocd,if=none,format=raw -device ide-cd,bus=ide.1,drive=virtiocd
 ```
 
-### after reboots, run
+### After reboots, run:
 ```
 sudo vfio-bind 0000:01:00.0 0000:01:00.1
 sudo windowsvm
 ```
 
-### thanks:
+### Thanks:
 https://bufferoverflow.io/gpu-passthrough/

@@ -119,4 +119,10 @@ qemu-system-x86_64 \
 -drive file=/home/kemmler/kvm/virt.iso,id=virtiocd,if=none,format=raw -device ide-cd,bus=ide.1,drive=virtiocd
 ```
 
+### after reboots, run
+```
+sudo vfio-bind 0000:01:00.0 0000:01:00.1
+sudo windowsvm
+```
+
 ### 

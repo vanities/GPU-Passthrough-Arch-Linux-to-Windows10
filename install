@@ -25,7 +25,7 @@ cd linux-vfio
 yes | makepkg -sri 
 cd -
 
-#sudo pacman -S qemu dmidecode dnsmasq firewalld rpmextract
+sudo pacman -S qemu dmidecode dnsmasq firewalld rpmextract --no-confirm
 
 chmod +x vfio-bind
 sudo cp vfio-bind /usr/bin/

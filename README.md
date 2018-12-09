@@ -1,10 +1,13 @@
 # GPU Passthrough from Arch Linux
 
 #### Combines these sources:
-https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF
-https://passthroughpo.st/quick-dirty-arch-passthrough-guide/
-https://medium.com/@dubistkomisch/gaming-on-arch-linux-and-windows-10-with-vfio-iommu-gpu-passthrough-7c395dde5c2
-https://pastebin.com/wetAhhVX
+1. https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF
+
+2. https://passthroughpo.st/quick-dirty-arch-passthrough-guide/
+
+3. https://medium.com/@dubistkomisch/gaming-on-arch-linux-and-windows-10-with-vfio-iommu-gpu-passthrough-7c395dde5c2
+
+4. https://pastebin.com/wetAhhVX
 
 #### When to do this:
 
@@ -12,7 +15,7 @@ When you want to play windows 10 video games from your arch box. My text editor 
 
 #### Installation:
 
-Most of this stuff is in the archlinux guide at the top, read more of that if any of this is confusing. 
+Most of this stuff is in the archlinux guide at the top, read more of that if any of this is confusing or something goes wrong.
 
 ## PCI passthrough via OVMF (GPU)
 
@@ -34,6 +37,7 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on"
 `$ sudo grub-mkconfig -o /boot/grub/grub.cfg`
 
 4. reboot
+
 `$ sudo reboot now`
 
 
@@ -42,12 +46,13 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on"
 One of the first things you will want to do is isolate your GPU. The goal of this is to prevent the Linux kernel from loading drivers that would take control of the GPU. Because of this, it is necessary to have two GPUs installed and functional within your system. One will be used for interacting with your Linux host (just like normal), and the other will be passed-through to your Windows guest. In the past, this had to be achieved through using a driver called pci-stub. While it is still possible to do so, it is older and holds no advantage over its successor –vfio-pci.
 
 1. find the device ID of the GPU that will be passed through by running lscpi
+
 `$ lspci -nn`
 
 and look through the given output until you find your desired GPU, they're **bold** in this case:
 
-01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GM204 [GeForce GTX 980] **[10de:13c0]** (rev a1)
-01:00.1 Audio device [0403]: NVIDIA Corporation GM204 High Definition Audio Controller **[10de:0fbb]** (rev a1)
+>01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GM204 [GeForce GTX 980] **[10de:13c0]** (rev a1)
+>01:00.1 Audio device [0403]: NVIDIA Corporation GM204 High Definition Audio Controller **[10de:0fbb]** (rev a1)
 
 
 ### Configuring vfio-pci and Regenerating your Initramfs
@@ -108,6 +113,7 @@ Find your GPU and ensure that under “Kernel driver in use:” vfio-pci is disp
 ### Configuring OVMF and Running libvirt
 
 1. download libvirt, virt-manager, ovmf, and qemu (these are all available in the AUR). OVMF is an open-source UEFI firmware designed for KVM and QEMU virtual machines. ovmf may be omitted if your hardware does not support it, or if you would prefer to use SeaBIOS. However, configuring it is very simple and typically worth the effort.
+
 `sudo pacman -S libvirt virt-manager ovmf qemu`
 
 2. edit `/etc/libvirt/qemu.conf` and add the path to your OVMF firmware image:
@@ -132,12 +138,15 @@ With libvirt running, and your GPU bound, you are now prepared to open up virt-m
 **virt-manager** has a fairly comprehensive and intuitive GUI, so you should have little trouble getting your Windows guest up and running. 
 
 1. download virt-manager
+
 `$ sudo pacman -S virt-manager`
 
 2. add yourself to the libvirt group (replace vanities with your username)
+
 `$ sudo usermod -a -G libvirt vanities`
 
 3. launch virt-manager
+
 `$ virt-manager`
 
 4. add your own vm with a windows *.iso* file

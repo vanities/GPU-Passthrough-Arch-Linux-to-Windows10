@@ -36,7 +36,9 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on"
 
 `$ sudo grub-mkconfig -o /boot/grub/grub.cfg`
 
+
 4. reboot
+
 
 `$ sudo reboot now`
 

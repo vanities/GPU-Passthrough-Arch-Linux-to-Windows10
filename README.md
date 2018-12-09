@@ -11,11 +11,16 @@
 
 #### When to do this:
 
-When you want to play windows 10 video games from your arch box. My text editor is nvim, replace it with whatever your text editor is (nano, vim, emacs)
+When you want to play windows 10 video games from your arch box because:
+1. wangblows
+2. you don't want to read mountains of text because you just want to play gaems. 
 
-#### Installation:
+#### Editing:
+My text editor is nvim, replace it with whatever your text editor is (nano, vim, emacs) to edit text in the terminal
 
-Most of this stuff is in the archlinux guide at the top, read more of that if any of this is confusing or something goes wrong.
+#### Disclamer:
+
+Most of this stuff is in the archlinux guide at the top, read more of that if any of this is confusing or something terribly goes wrong.
 
 ## PCI passthrough via OVMF (GPU)
 
@@ -90,7 +95,8 @@ HOOKS="modconf"
 
 ### Checking whether it worked
 
-1. run
+1. check pci devices:
+
 `$ lspci -nnk`
 
 Find your GPU and ensure that under “Kernel driver in use:” vfio-pci is displayed:

@@ -18,7 +18,6 @@
     <type arch='x86_64' machine='pc-i440fx-3.0'>hvm</type>
     <loader readonly='yes' type='pflash'>/usr/share/ovmf/x64/OVMF_CODE.fd</loader>
     <nvram>/var/lib/libvirt/qemu/nvram/win10_VARS.fd</nvram>
-    <boot dev='hd'/>
   </os>
   <features>
     <acpi/>
@@ -58,12 +57,20 @@
       <source file='/home/vanities/Downloads/virtio-win-0.1.160.iso'/>
       <target dev='sda' bus='sata'/>
       <readonly/>
+      <boot order='2'/>
       <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='/home/vanities/Downloads/Win10_1809Oct_English_x64.iso'/>
+      <target dev='sdc' bus='sata'/>
+      <readonly/>
+      <address type='drive' controller='0' bus='0' target='0' unit='2'/>
+    </disk>
     <disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2' cache='none'/>
+      <driver name='qemu' type='qcow2'/>
       <source file='/home/vanities/Downloads/drive/win10.qcow2'/>
-      <target dev='sdb' bus='sata'/>
+      <target dev='sdb' bus='scsi'/>
       <address type='drive' controller='0' bus='0' target='0' unit='1'/>
     </disk>
     <controller type='usb' index='0' model='ich9-ehci1'>
@@ -82,9 +89,6 @@
       <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x2'/>
     </controller>
     <controller type='pci' index='0' model='pci-root'/>
-    <controller type='ide' index='0'>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x1'/>
-    </controller>
     <controller type='scsi' index='0' model='virtio-scsi'>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x08' function='0x0'/>
     </controller>

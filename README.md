@@ -12,8 +12,16 @@
 #### When to do this:
 
 When you want to play windows 10 video games from your arch box because:
-1. wangblows
+1. wangblows and you have access to a windows 10 iso 
+
+
+**Link**: [here](https://www.microsoft.com/en-us/software-download/windows10ISO)
+
+**Direct Download**:  [here](https://software-download.microsoft.com/pr/Win10_1809Oct_English_x64.iso?t=673fe9a0-8692-49ba-b0e0-e8ca7d314fdc&e=1544486586&h=9bb1b05b0fe6d83b41a5e8780a406244)
+
 2. you don't want to read mountains of text because you just want to play gaems. 
+
+3. download the *virtio* drivers for windows10 [here](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) 
 
 #### Editing:
 My text editor is nvim, replace it with whatever your text editor is (nano, vim, emacs) to edit text in the terminal
@@ -157,11 +165,23 @@ With libvirt running, and your GPU bound, you are now prepared to open up virt-m
 
 `$ virt-manager`
 
-4. add your own vm with a windows *.iso* file
+4. When the VM creation wizard asks you to name your VM (final step before clicking "Finish"), check the "Customize before install" checkbox.
 
-5. setup your GPU, navigate to the “Add Hardware” section and select both the GPU and its sound device that was isolated previously in the **PCI** tab
+5. In the "Overview" section, set your firmware to "UEFI". If the option is grayed out, make sure that you have correctly specified the location of your firmware in /etc/libvirt/qemu.conf and restart libvirtd.service by running  `sudo systemctl restart libvirtd`
 
-6. test to see if it works
+6. In the "CPUs" section, change your CPU model to "**host-passthrough**". If it is not in the list, you will have to type it by hand. This will ensure that your CPU is detected properly, since it causes libvirt to expose your CPU capabilities exactly as they are instead of only those it recognizes (which is the preferred default behavior to make CPU behavior easier to reproduce). Without it, some applications may complain about your CPU being of an unknown model.
+
+7. If you want to minimize IO overhead, go into "Add Hardware" and add a Controller for SCSI drives of the "VirtIO SCSI" model. You can then change the default IDE disk for a **SCSI** disk, which will bind to said controller.
+
+a. Windows VMs will not recognize those drives by default, so you need to download the ISO containing the drivers from [here] (https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) and add an **SATA** CD-ROM storage device linking to said ISO, otherwise you will not be able to get Windows to recognize it during the installation process.
+
+8. Make sure there is another **SATA** CD-ROM device that is handling your windows10 iso from the top links.
+
+9. setup your GPU, navigate to the “Add Hardware” section and select both the GPU and its sound device that was isolated previously in the **PCI** tab
+
+10. test to see if it works by pressing the play button after configuring your VM
+
+11. 
 
 ## Performance Tuning
 

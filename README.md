@@ -177,7 +177,7 @@ With libvirt running, and your GPU bound, you are now prepared to open up virt-m
 
 8. then change the default IDE disk for a **SCSI** disk, which will bind to said controller.
 
-a. windows VMs will not recognize those drives by default, so you need to download the ISO containing the drivers from [here] (https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) and add an **SATA** CD-ROM storage device linking to said ISO, otherwise you will not be able to get Windows to recognize it during the installation process.
+a. windows VMs will not recognize those drives by default, so you need to download the ISO containing the drivers from [here](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) and add an **SATA** CD-ROM storage device linking to said ISO, otherwise you will not be able to get Windows to recognize it during the installation process.
 
 9. make sure there is another **SATA** CD-ROM device that is handling your windows10 iso from the top links.
 

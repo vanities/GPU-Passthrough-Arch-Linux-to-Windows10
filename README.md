@@ -151,6 +151,8 @@ With libvirt running, and your GPU bound, you are now prepared to open up virt-m
 
 ### virt-manager, a GUI for managing virtual machines
 
+#### setting up virt-manager
+
 **virt-manager** has a fairly comprehensive and intuitive GUI, so you should have little trouble getting your Windows guest up and running. 
 
 1. download virt-manager
@@ -165,25 +167,76 @@ With libvirt running, and your GPU bound, you are now prepared to open up virt-m
 
 `$ virt-manager`
 
-4. When the VM creation wizard asks you to name your VM (final step before clicking "Finish"), check the "Customize before install" checkbox.
+4. when the VM creation wizard asks you to name your VM (final step before clicking "Finish"), check the "Customize before install" checkbox.
 
-5. In the "Overview" section, set your firmware to "UEFI". If the option is grayed out, make sure that you have correctly specified the location of your firmware in /etc/libvirt/qemu.conf and restart libvirtd.service by running  `sudo systemctl restart libvirtd`
+5. in the "Overview" section, set your firmware to "UEFI". If the option is grayed out, make sure that you have correctly specified the location of your firmware in /etc/libvirt/qemu.conf and restart libvirtd.service by running  `sudo systemctl restart libvirtd`
 
-6. In the "CPUs" section, change your CPU model to "**host-passthrough**". If it is not in the list, you will have to type it by hand. This will ensure that your CPU is detected properly, since it causes libvirt to expose your CPU capabilities exactly as they are instead of only those it recognizes (which is the preferred default behavior to make CPU behavior easier to reproduce). Without it, some applications may complain about your CPU being of an unknown model.
+6. in the "CPUs" section, change your CPU model to "**host-passthrough**". If it is not in the list, you will have to type it by hand. This will ensure that your CPU is detected properly, since it causes libvirt to expose your CPU capabilities exactly as they are instead of only those it recognizes (which is the preferred default behavior to make CPU behavior easier to reproduce). Without it, some applications may complain about your CPU being of an unknown model.
 
-7. If you want to minimize IO overhead, go into "Add Hardware" and add a Controller for SCSI drives of the "VirtIO SCSI" model. You can then change the default IDE disk for a **SCSI** disk, which will bind to said controller.
+7. go into "Add Hardware" and add a Controller for SCSI drives of the "VirtIO SCSI" model.
 
-a. Windows VMs will not recognize those drives by default, so you need to download the ISO containing the drivers from [here] (https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) and add an **SATA** CD-ROM storage device linking to said ISO, otherwise you will not be able to get Windows to recognize it during the installation process.
+8. then change the default IDE disk for a **SCSI** disk, which will bind to said controller.
 
-8. Make sure there is another **SATA** CD-ROM device that is handling your windows10 iso from the top links.
+a. windows VMs will not recognize those drives by default, so you need to download the ISO containing the drivers from [here](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) and add an **SATA** CD-ROM storage device linking to said ISO, otherwise you will not be able to get Windows to recognize it during the installation process.
 
-9. setup your GPU, navigate to the “Add Hardware” section and select both the GPU and its sound device that was isolated previously in the **PCI** tab
+9. make sure there is another **SATA** CD-ROM device that is handling your windows10 iso from the top links.
 
-10. test to see if it works by pressing the play button after configuring your VM
+10. setup your GPU, navigate to the “Add Hardware” section and select both the GPU and its sound device that was isolated previously in the **PCI** tab
 
-11. 
+#### installing windows
+
+1. test to see if it works by pressing the **play** button after configuring your VM and install windows
+
+You may see this screen, just type `exit` and bo to the BIOs screen.
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/exit.jpg)
+
+From the BIOs screen, select and `enter` the **Boot Manager**
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/select_boot.jpg)
+
+Lastly, pick one of the DVD-ROM ones from these menus
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/select_dvd.jpg)
+
+2. from here, you should be able to see windows 10 booting up, we need to load the **virtio-scsi** drivers
+
+When you get to **Windows Setup** click `Custom: Install windows only (advanced)`
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/advanced_windows.JPG)
+
+You should notice that our SCSI hard drive hasn't been detected yet, click `Load driver`
+![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/load_drivers.jpg)
+
+Select the correct CD-ROM labled `virto-win-XXXXX**`
+![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/select_iso.jpg)
+
+Finally, select the `amd64` architecture
+![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/select_arch.jpg)
+
+3. your **SCSI** hard drive device should be there and you should be able to contiune the windows10 install
 
 ## Performance Tuning
 
+Check out my [virth xml file](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/virsh-win10.xml)
+
 ### CPU pinnging
-soon..
+
+#### CPU topology
+
+1. check your cpu topology by running
+
+`lscpu -e`
+
+```
+
+```
+
+### editing virsh
+
+edit by running something similar with your desired editor and VM name:
+
+`sudo EDITOR=nvim virsh edit win10`
+
+if this doesn't work, check your VM name:
+
+`sudo virsh list`
+
+
+

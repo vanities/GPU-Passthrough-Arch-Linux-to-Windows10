@@ -40,7 +40,7 @@ My text editor is nvim, replace it with whatever your text editor is (nano, vim,
 #### Disclamer:
 
 Most of this stuff is in the archlinux guide at the top, read more of that if any of this is confusing or something terribly goes wrong. This is my rig:
-![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/neofetch.png)
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/screenshot.png)
 
 
 ## PCI passthrough via OVMF (GPU)
@@ -183,6 +183,7 @@ With libvirt running, and your GPU bound, you are now prepared to open up virt-m
 4. when the VM creation wizard asks you to name your VM (final step before clicking "Finish"), check the "Customize before install" checkbox.
 
 5. in the "Overview" section, set your firmware to "UEFI". If the option is grayed out, make sure that you have correctly specified the location of your firmware in /etc/libvirt/qemu.conf and restart libvirtd.service by running  `sudo systemctl restart libvirtd`
+
 ![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/uefi.png)
 
 6. in the "CPUs" section, change your CPU model to "**host-passthrough**". If it is not in the list, you will have to type it by hand. This will ensure that your CPU is detected properly, since it causes libvirt to expose your CPU capabilities exactly as they are instead of only those it recognizes (which is the preferred default behavior to make CPU behavior easier to reproduce). Without it, some applications may complain about your CPU being of an unknown model.
@@ -254,9 +255,8 @@ Check out my [virth xml file](https://github.com/vanities/GPU-Passthrough-Arch-L
 
 `lscpu -e`
 
-```
+![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/lscpu.png)
 
-```
 
 ### editing virsh
 
@@ -268,5 +268,18 @@ if this doesn't work, check your VM name:
 
 `sudo virsh list`
 
+![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/cpupinning.jpg)
 
+your virsh config file should look something like this if your cpu is like mine, otherwise revert to the arch guide:
+[cpu-pinning guide](https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF#CPU_pinning)
 
+### enabling hugepages
+1. edit `/etc/defualt/grub`
+
+`$ sudo nvim /etc/default/grub`
+
+2. add `hugepages=2048` to **GRUB_COMMAND_LINE_DEFAULT**
+
+your final grub should look like this:
+
+![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/grub.jpg)

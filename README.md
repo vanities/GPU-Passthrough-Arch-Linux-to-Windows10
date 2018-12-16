@@ -291,3 +291,10 @@ your virsh config file should look something like this if your cpu is like mine,
 your final grub should look like this:
 
 ![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/grub.png)
+
+3. re-configure your grub:
+
+`$ sudo grub-mkconfig -o /boot/grub/grub.cfg`
+
+4. reboot and test it out
+

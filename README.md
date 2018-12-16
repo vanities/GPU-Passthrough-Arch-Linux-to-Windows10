@@ -1,6 +1,6 @@
 # GPU Passthrough from Arch Linux
 
-#### Combines these sources:
+##### Combines these sources:
 
 1. https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF
 
@@ -10,14 +10,14 @@
 
 4. https://pastebin.com/wetAhhVX
 
-#### When to do this:
+##### When to do this:
 
 When you want to play windows 10 video games from your arch box because:
 1. wangblows and you have access to a windows 10 iso 
 
 2. you don't want to read mountains of text because you just want to play gaems. 
 
-#### Required downloads:
+##### Required downloads:
 
 1. a Windows 10 installation iso
 
@@ -32,12 +32,7 @@ When you want to play windows 10 video games from your arch box because:
 **Direct Download**: [here](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) 
 
 
-#### Editing:
-
-My text editor is nvim, replace it with whatever your text editor is (nano, vim, emacs) to edit text in the terminal
-
-
-#### Disclamer:
+##### Disclamer:
 
 Most of this stuff is in the archlinux guide at the top, read more of that if any of this is confusing or something terribly goes wrong. This is my rig:
 ![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/screenshot.png)
@@ -281,7 +276,7 @@ if this doesn't work, check your VM name:
 
 `sudo virsh list`
 
-![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/cpupinning.jpg)
+![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/cpupinning.png)
 
 your virsh config file should look something like this if your cpu is like mine, otherwise revert to the arch guide:
 [cpu-pinning guide](https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF#CPU_pinning)
@@ -295,4 +290,4 @@ your virsh config file should look something like this if your cpu is like mine,
 
 your final grub should look like this:
 
-![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/grub.jpg)
+![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/grub.png)

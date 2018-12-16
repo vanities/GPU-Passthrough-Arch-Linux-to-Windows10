@@ -1,6 +1,7 @@
 # GPU Passthrough from Arch Linux
 
 #### Combines these sources:
+
 1. https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF
 
 2. https://passthroughpo.st/quick-dirty-arch-passthrough-guide/
@@ -14,21 +15,33 @@
 When you want to play windows 10 video games from your arch box because:
 1. wangblows and you have access to a windows 10 iso 
 
+2. you don't want to read mountains of text because you just want to play gaems. 
+
+#### Required downloads:
+
+1. a Windows 10 installation iso
 
 **Link**: [here](https://www.microsoft.com/en-us/software-download/windows10ISO)
 
 **Direct Download**:  [here](https://software-download.microsoft.com/pr/Win10_1809Oct_English_x64.iso?t=673fe9a0-8692-49ba-b0e0-e8ca7d314fdc&e=1544486586&h=9bb1b05b0fe6d83b41a5e8780a406244)
 
-2. you don't want to read mountains of text because you just want to play gaems. 
+2. virtio* drivers for windows10 
 
-3. download the *virtio* drivers for windows10 [here](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) 
+**Link**: [here](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/)
+
+**Direct Download**: [here](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) 
+
 
 #### Editing:
+
 My text editor is nvim, replace it with whatever your text editor is (nano, vim, emacs) to edit text in the terminal
+
 
 #### Disclamer:
 
-Most of this stuff is in the archlinux guide at the top, read more of that if any of this is confusing or something terribly goes wrong.
+Most of this stuff is in the archlinux guide at the top, read more of that if any of this is confusing or something terribly goes wrong. This is my rig:
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/neofetch.png)
+
 
 ## PCI passthrough via OVMF (GPU)
 
@@ -80,15 +93,15 @@ Next, we need to instruct vfio-pci to target the device in question through the 
 options vfio-pci ids=10de:13c0,10de:0fbb
 ```
 
-Next, we will need to ensure that vfio-pciis loaded before other graphics drivers. 
+Next, we will need to ensure that vfio-pci is loaded before other graphics drivers. 
 
-2. edit `/etc/mkinitcpio.conf`. At the very top of your file you should see a section titled MODULES. Towards the bottom of this section you should see the uncommented line: MODULES= . Add the in the following order before any other drivers (nouveau, radeon, nvidia, etc) which may be listed: vfio vfio_iommu_type1 vfio_pci vfio_virqfd. A sample line may look like the following:
+2. edit `/etc/mkinitcpio.conf`. At the very top of your file you should see a section titled MODULES. Towards the bottom of this section you should see the uncommented line: MODULES= . Add the in the following order before any other drivers (nouveau, radeon, nvidia, etc) which may be listed: vfio vfio_iommu_type1 vfio_pci vfio_virqfd. The line should look like the following:
 
 ```
 MODULES="vfio vfio_iommu_type1 vfio_pci vfio_virqfd nouveau"
 ```
 
-In the same file, also add modconf to the HOOKSline:
+In the same file, also add modconf to the HOOKS line:
 
 ```
 HOOKS="modconf"
@@ -122,7 +135,7 @@ Find your GPU and ensure that under “Kernel driver in use:” vfio-pci is disp
 ```
 
 2. ???
-3. profit?
+3. profit
 
  
 
@@ -165,23 +178,40 @@ With libvirt running, and your GPU bound, you are now prepared to open up virt-m
 
 3. launch virt-manager
 
-`$ virt-manager`
+`$ virt-manager &`
 
 4. when the VM creation wizard asks you to name your VM (final step before clicking "Finish"), check the "Customize before install" checkbox.
 
 5. in the "Overview" section, set your firmware to "UEFI". If the option is grayed out, make sure that you have correctly specified the location of your firmware in /etc/libvirt/qemu.conf and restart libvirtd.service by running  `sudo systemctl restart libvirtd`
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/uefi.png)
 
 6. in the "CPUs" section, change your CPU model to "**host-passthrough**". If it is not in the list, you will have to type it by hand. This will ensure that your CPU is detected properly, since it causes libvirt to expose your CPU capabilities exactly as they are instead of only those it recognizes (which is the preferred default behavior to make CPU behavior easier to reproduce). Without it, some applications may complain about your CPU being of an unknown model.
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/cpu.png)
 
-7. go into "Add Hardware" and add a Controller for SCSI drives of the "VirtIO SCSI" model.
+
+7. go into "Add Hardware" and add a Controller for **SCSI** drives of the "VirtIO SCSI" model.
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/virtioscsi.png)
+
 
 8. then change the default IDE disk for a **SCSI** disk, which will bind to said controller.
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/scsi.png)
+
 
 a. windows VMs will not recognize those drives by default, so you need to download the ISO containing the drivers from [here](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.160-1/virtio-win-0.1.160.iso) and add an **SATA** CD-ROM storage device linking to said ISO, otherwise you will not be able to get Windows to recognize it during the installation process.
 
 9. make sure there is another **SATA** CD-ROM device that is handling your windows10 iso from the top links.
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/satavirtio.png)
 
 10. setup your GPU, navigate to the “Add Hardware” section and select both the GPU and its sound device that was isolated previously in the **PCI** tab
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/gpu.png)
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/gpu-audio.png)
+
+11. lastly, attach your usb keyboard
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/keyboard.png)
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/mouse.png)
+
+12. don't forget to pass some good RAM as well
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/ram.png)
 
 #### installing windows
 

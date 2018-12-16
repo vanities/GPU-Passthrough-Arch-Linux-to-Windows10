@@ -43,6 +43,9 @@ Most of this stuff is in the archlinux guide at the top, read more of that if an
 ![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/screenshot.png)
 
 
+---
+
+
 ## PCI passthrough via OVMF (GPU)
 
 ### Initialization
@@ -137,6 +140,8 @@ Find your GPU and ensure that under “Kernel driver in use:” vfio-pci is disp
 2. ???
 3. profit
 
+
+---
  
 
 ### Configuring OVMF and Running libvirt
@@ -161,6 +166,10 @@ $ sudo systemctl enable virtlogd.socket
 ```
 
 With libvirt running, and your GPU bound, you are now prepared to open up virt-manager and begin configuring your virtual machine. 
+
+
+---
+
 
 ### virt-manager, a GUI for managing virtual machines
 
@@ -242,6 +251,10 @@ Finally, select the `amd64` architecture
 ![alt_text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/select_arch.jpg)
 
 3. your **SCSI** hard drive device should be there and you should be able to contiune the windows10 install
+
+
+---
+
 
 ## Performance Tuning
 

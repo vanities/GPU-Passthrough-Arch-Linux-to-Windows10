@@ -35,7 +35,7 @@ When you want to play windows 10 video games from your arch box because:
 ##### Disclamer:
 
 Most of this stuff is in the archlinux guide at the top, read more of that if any of this is confusing or something terribly goes wrong. This is my rig:
-![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/screenshot.png)
+![alt text](https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10/blob/master/pics/neofetch.png)
 
 
 ---

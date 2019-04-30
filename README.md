@@ -1,5 +1,10 @@
 # GPU Passthrough from Arch Linux
 
+##### Issues
+
+If you have any issues with these steps please hit me up and I will try to fix them!
+
+
 ##### Combines these sources:
 
 1. https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF

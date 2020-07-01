@@ -287,7 +287,7 @@ your virsh config file should look something like this if your cpu is like mine,
 [cpu-pinning guide](https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF#CPU_pinning)
 
 ### enabling hugepages
-1. edit `/etc/defualt/grub`
+1. edit `/etc/default/grub`
 
 `$ sudo nvim /etc/default/grub`
 

@@ -90,7 +90,7 @@ and look through the given output until you find your desired GPU, they're **bol
 
 Next, we need to instruct vfio-pci to target the device in question through the ID numbers gathered above.
 
-1. edit `/etc/modprobe.d/vfio.conffile` and adding the following line with **your ids from the last step above**:
+1. edit `/etc/modprobe.d/vfio.conf` file and adding the following line with **your ids from the last step above**:
 
 ```
 options vfio-pci ids=10de:13c0,10de:0fbb

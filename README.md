@@ -56,9 +56,16 @@ HIT F10 or del or whatever the key is for your motherboard during bios initializ
 2. edit `/etc/default/grub` and add intel_iommu=on to GRUB_CMDLINE_LINUX_DEFAULT
 
 `$ sudo nvim /etc/default/grub`
+For Intel:
 
 ```
-GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet ... intel_iommu=on"
+```
+
+For AMD:
+
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet ... amd_iommu=on"
 ```
 
 3. re-configure your grub:
